@@ -23,7 +23,7 @@ load_file(mem_arena *arena, const char *path)
     }
 
 
-    result = PushString(arena, sbuf.st_size);
+    result = PushString8(arena, sbuf.st_size);
 
     result.size = (u64)sbuf.st_size;
     if(result.size != 0)
@@ -38,7 +38,6 @@ load_file(mem_arena *arena, const char *path)
 internal string8
 write_file(const char *path, string8 data)
 {
-
     string8 result = {0};
     s32 file = open(path, O_WRONLY | O_CREAT | O_TRUNC, 0644);
     if(file == -1)

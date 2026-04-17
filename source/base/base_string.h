@@ -1,9 +1,15 @@
 #ifndef BASE_STRING_H
 #define BASE_STRING_H
 
-#define PushString(arena, count) (string8){ .data = (PushArrayZero(arena, u8, (count))), .size = (count) }
-#define StringCast(data, size) (string8){(u8 *)(data), (u64)(size) }
-#define StringPCast(data, size) (string8 *){(u8 *)(data), (u64)(size) }
+#define PushString8(arena, count) (string8){ .data = (PushArrayZero(arena, u8, (count))), .size = (count) }
+#define PushString16(arena, count) (string16){ .data = (PushArrayZero(arena, u16, (count))), .size = (count) }
+#define PushString32(arena, count) (string32){ .data = (PushArrayZero(arena, u32, (count))), .size = (count) }
+
+#define String8(data, size) (string8){(u8 *)(data), (u64)(size) }
+#define String16(data, size) (string16){(u16 *)(data), (u64)(size) }
+#define String32(data, size) (string32){(u32 *)(data), (u64)(size) }
+
+
 
 #define StringFmt "%.*s"
 #define ULongFmt  "%lu"

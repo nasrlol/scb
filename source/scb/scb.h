@@ -13,23 +13,30 @@ struct config {
     string8 flags[];
 };
 
-
-internal void
-self_rebuild(const char *binary_path)
+typedef struct file_metad file_metad;
+struct file_metad
 {
+    string8     name;
+    u32         time;
+};
 
-    struct stat scb_binary_stats;
-    assert_msg((lstat(binary_path), &sb == -1),"\nlstat failed to initialize\n");
+internal b32
+is_file_modified(const char *path)
+{
+    struct stat scb_bstats;
+    s8 err = lstat(path, &scb_bstats);
+    assert_msg((err), "lstat failed.");
 
-    if(ctime(&sb.st_mtime))
+    if(scb_bstats.st_mtime)
     {
-        
+
     }
+    return 0;
 }
 
 //@documentatie: hebfjlberln
 internal void
-init(int argument_count, char **argument, char **env) 
+init(int argument_count, char **argument, char **env)
 {
     mem_arena *global_arena = arena_create(KiB(2));
     assert_msg(argument_count > 2, "no program passed");
@@ -41,20 +48,22 @@ init(int argument_count, char **argument, char **env)
 
     //- load files into buffer
     {
-
-
+        if(is_file_modified)
+        {
+            self_rebuild();
+        }
 
         //- TODO(nasr): ...
     }
 
-    if(string8_cmp(command, StringCast("doc", 3))) 
+    if(string8_cmp(command, StringCastUTF8("doc", 3)))
     {
-        //- run meta program that builds tool documentation 
+        //- run meta program that builds tool documentation
         //- hmmm how do i store the documentation
         {
         }
-    } 
-    else if(string8_cmp(command, StringCast("build", 5))) 
+    }
+    else if(string8_cmp(command, StringCast("build", 5)))
     {
 
 
@@ -75,8 +84,10 @@ init(int argument_count, char **argument, char **env)
 
         }
     }
-    else if(string8_cmp(command, StringCast("meta", 5))) 
+    else if(string8_cmp(command, StringCast("meta", 5)))
     {
         //- run the meta program
     }
+
+    return;
 }
